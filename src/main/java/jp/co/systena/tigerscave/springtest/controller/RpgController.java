@@ -1,5 +1,6 @@
 package jp.co.systena.tigerscave.springtest.controller;
 
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,5 +48,20 @@ public class RpgController {
     mav.setViewName("CommandView");
 
     return mav;
+  }
+
+  @RequestMapping(value = "/Battle", method = RequestMethod.POST)
+  public ModelAndView battleStart(HttpSession session, ModelAndView mav) {
+    mParty = (Party)session.getAttribute("partyList");
+    List<Character> partyList = mParty.getPartyList();
+    for (Character member:partyList) {
+      String command = member.getJob().fight();
+      member.setCommand(command);
+    }
+
+    mav.addObject("party", mParty);
+    mav.setViewName("BattleView");
+    return mav;
+
   }
 }

@@ -17,7 +17,7 @@
       <td th:text="'名前:' + ${member.Name}"></td>
     </tr>
   </table>
-  <form th:action="@{/CreateCompleted}" th:object="${create}" method="post">
+  <form th:action="@{/Battle}" th:object="${battle}" method="post">
     <input type="submit" value="たたかう" />
   </form>
 

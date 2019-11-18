@@ -2,24 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
-<title>Command</title>
+<title>戦闘結果</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1 th:text="コマンド"></h1>
+  <h1 th:text="戦闘結果"></h1>
   <table th:each="member: ${party.partyList}">
     <tr>
-      <td th:text="'職業:' + ${member.jobName}"></td>
-    </tr>
-    <tr>
-      <td th:text="'名前:' + ${member.Name}"></td>
+      <td th:text="${member.Name} + 'は' + ${member.Command}"></td>
     </tr>
   </table>
-  <form th:action="@{/Battle}" th:object="${battle}" method="post">
-    <input type="submit" value="たたかう" />
-  </form>
+
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
