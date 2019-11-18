@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Party {
-  private List<Job> partyList = new ArrayList<Job>();
+  private List<Character> partyList = new ArrayList<Character>();
 
-  public void addPartyMember(Job j) {
-    partyList.add(j);
+  public void addPartyMember(Character createdCharacter) {
+    partyList.add(createdCharacter);
   }
 
-  public List<Job> getPartyList() {
+  public List<Character> getPartyList() {
     return partyList;
   }
 }

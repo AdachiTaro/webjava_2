@@ -9,26 +9,18 @@
 </head>
 <body>
   <h1 th:text="コマンド"></h1>
-  職業：
-
-
-        <form th:action="@{/deleteOrder}" th:object="${deleteForm}"
-          method="POST">
-          <input type="hidden" name="itemId" th:value="${order.itemId}" />
-          <input type="submit" value="削除" />
-        </form>
-      </td>
+  <table th:each="member: ${party.partyList}">
+    <tr>
+      <td th:text="'職業:' + ${member.jobName}"></td>
     </tr>
-
-    <tr class="table-info">
-      <td align="right" colspan="3" th:text="カート合計"></td>
-      <td colspan="2" th:text="${cart.totalAmount} + '円'"></td>
+    <tr>
+      <td th:text="'名前:' + ${member.Name}"></td>
     </tr>
   </table>
-
-  <form th:action="@{/itemlist}">
-    <input type="submit" value="商品一覧に戻る" />
+  <form th:action="@{/CreateCompleted}" th:object="${create}" method="post">
+    <input type="submit" value="たたかう" />
   </form>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>

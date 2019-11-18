@@ -8,7 +8,7 @@
 </head>
 <body>
   <h1 th:text="キャラクター作成"></h1>
-  <form th:action="@{/CharacterCreate}" th:object="${create}" method="post">
+  <form th:action="@{/CreateCompleted}" th:object="${create}" method="post">
     職業：
     <input type="radio" name="job" checked="" th:value="戦士" th:text="戦士">
     <input type="radio" name="job" th:value="魔法使い" th:text="魔法使い">
@@ -16,7 +16,7 @@
     </br>
 
     名前：
-    <input type="text">
+    <input type="text" name="name">
 
     </br>
     <input type="submit" value="次へ" />
