@@ -18,6 +18,9 @@ public class Character {
         setJob(new Wizard());
 //        setCommand(getJob().fight());
         break;
+      case "武闘家":
+        setJob(new Monk());
+        break;
     }
     setCharacterId(id);
     setJobName(jobname);
