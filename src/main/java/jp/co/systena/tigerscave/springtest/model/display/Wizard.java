@@ -7,4 +7,8 @@ public class Wizard extends Job {
     return "まほうで攻撃した！";
   }
 
+  @Override
+  public String heal() {
+    return "まほうで回復した！";
+  }
 }

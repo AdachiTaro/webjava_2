@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -51,11 +52,19 @@ public class RpgController {
   }
 
   @RequestMapping(value = "/Battle", method = RequestMethod.POST)
-  public ModelAndView battleStart(HttpSession session, ModelAndView mav) {
+  public ModelAndView battleStart(@ModelAttribute("battle") String selectedCommand, HttpSession session, ModelAndView mav) {
     mParty = (Party)session.getAttribute("partyList");
     List<Character> partyList = mParty.getPartyList();
     for (Character member:partyList) {
-      String command = member.getJob().fight();
+      String command = "";
+      switch (selectedCommand) {
+        case "たたかう" :
+          command = member.getJob().fight();
+          break;
+        case "かいふく" :
+          command = member.getJob().heal();
+          break;
+      }
       member.setCommand(command);
     }
 

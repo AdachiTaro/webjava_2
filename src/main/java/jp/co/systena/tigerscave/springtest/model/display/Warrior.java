@@ -7,4 +7,8 @@ public class Warrior extends Job{
     return "剣で攻撃した！";
   }
 
+  @Override
+  public String heal() {
+    return "やくそうで回復した！";
+  }
 }

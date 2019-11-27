@@ -7,5 +7,8 @@ public class Monk extends Job{
     return "拳で攻撃した！";
   }
 
-
+  @Override
+  public String heal() {
+    return "やくそうで回復した！";
+  }
 }
