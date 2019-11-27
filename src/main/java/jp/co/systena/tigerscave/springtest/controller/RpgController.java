@@ -4,7 +4,6 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +20,7 @@ public class RpgController {
   @Autowired
   HttpSession session;
 
-  @GetMapping("/CharacterCreate")
+  @RequestMapping("/CharacterCreate")
   public ModelAndView showCharacterCreate() {
     ModelAndView mav = new ModelAndView();
     mav.addObject("CharacterForm", new CharacterCreateForm());
@@ -46,8 +45,19 @@ public class RpgController {
     mav.addObject("party", mParty);
 
     // テンプレート名を設定
-    mav.setViewName("CommandView");
+    mav.setViewName("CharacterCreatedView");
 
+    return mav;
+  }
+
+  @RequestMapping(value = "/Command", method = RequestMethod.POST)
+  public ModelAndView commandSelect(HttpSession session, ModelAndView mav) {
+    mParty = (Party)session.getAttribute("partyList");
+
+
+
+    mav.addObject("party", mParty);
+    mav.setViewName("CommandView");
     return mav;
   }
 
@@ -71,6 +81,5 @@ public class RpgController {
     mav.addObject("party", mParty);
     mav.setViewName("BattleView");
     return mav;
-
   }
 }

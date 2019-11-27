@@ -2,14 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
-<title>Command</title>
+<title>キャラクター作成完了</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1 th:text="コマンド"></h1>
-  <div th:each="member: ${party.partyList}">
+  <h1 th:text="キャラクター作成完了"></h1>
+  <div th:each="member, tmp: ${party.partyList}">
     <table>
       <tr>
         <td th:text="'職業:' + ${member.jobName}"></td>
@@ -18,11 +18,20 @@
         <td th:text="'名前:' + ${member.Name}"></td>
       </tr>
     </table>
-    <form th:action="@{/Battle}" th:object="${battle}" method="post">
-      <input type="submit" name="battle" th:value="たたかう"  th:readonly="${{member.Command} eq '未入力'}"/>
-      <input type="submit" name="battle" th:value="かいふく" />
+
+    <!-- メンバー数が4以外の時、メンバーの一番下のみに追加キャラボタンを設置 -->
+    <!-- TODO:5以上でも設置してしまうためメンバーが4以下の時に条件を変えたい &le;がうまく動いてくれない -->
+    <div th:if="${tmp.size} != 4">
+      <div th:if="${tmp.size} == ${tmp.count}">
+        <form th:action="@{/CharacterCreate}" method="post">
+        <input type="submit" name="recreate" th:value="追加キャラクター作成" />
+      </div>
     </form>
+    </div>
   </div>
+  <form th:action="@{/Command}" method="post">
+    <input type="submit" name="command" th:value="コマンド選択へ" />
+  </form>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
