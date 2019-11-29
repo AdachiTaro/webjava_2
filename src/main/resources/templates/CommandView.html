@@ -18,9 +18,10 @@
         <td th:text="'名前:' + ${member.Name}"></td>
       </tr>
     </table>
-    <form th:action="@{/Battle}" th:object="${battle}" method="post">
-      <input type="submit" name="battle" th:value="たたかう"  th:readonly="${{member.Command} eq '未入力'}"/>
-      <input type="submit" name="battle" th:value="かいふく" />
+    <form th:action="@{/SelectCommand}" th:object="${selectcommand}" method="post">
+      <input type="hidden" name="memberId"th:value="${member.characterId}" />
+      <input type="submit" name="selectcommand" th:value="たたかう" />
+      <input type="submit" name="selectcommand" th:value="かいふく" />
     </form>
   </div>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

@@ -19,9 +19,7 @@
       </tr>
     </table>
 
-    <!-- メンバー数が4以外の時、メンバーの一番下のみに追加キャラボタンを設置 -->
-    <!-- TODO:5以上でも設置してしまうためメンバーが4以下の時に条件を変えたい &le;がうまく動いてくれない -->
-    <div th:if="${tmp.size} != 4">
+    <div th:if="${tmp.size} lt 4">
       <div th:if="${tmp.size} == ${tmp.count}">
         <form th:action="@{/CharacterCreate}" method="post">
         <input type="submit" name="recreate" th:value="追加キャラクター作成" />
