@@ -6,8 +6,12 @@ public abstract class Monster {
   private int hp;
   private String name;
   private String knockedDownMessage;
+  private String attackMessage;
+  private int attackPower;
 
   public abstract void takeDamage(int damageQuantity);
+
+  public abstract void fight(String opponentName, int attackPower);
 
   public int getHp() {
     return hp;
@@ -33,4 +37,19 @@ public abstract class Monster {
     this.knockedDownMessage = knockedDownMessage;
   }
 
+  public String getAttackMessage() {
+    return attackMessage;
+  }
+
+  public void setAttackMessage(String attackMessage) {
+    this.attackMessage = attackMessage;
+  }
+
+  public int getAttackPower() {
+    return attackPower;
+  }
+
+  public void setAttackPower(int attackPower) {
+    this.attackPower = attackPower;
+  }
 }

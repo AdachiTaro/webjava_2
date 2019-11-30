@@ -1,6 +1,7 @@
 package jp.co.systena.tigerscave.springtest.controller;
 
 import java.util.List;
+import java.util.Random;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -105,9 +106,6 @@ public class RpgController {
     } else {
       // コマンド選択が終わっているようなので戦闘結果画面を表示
 
-      // 攻撃側のパーティを渡す
-      mav.addObject("party", mParty);
-
       // 初回はモンスターを生成する、初回以外はsessionから取得する
       Monster monster = (Monster) session.getAttribute("monster");
       if (monster == null) {
@@ -127,6 +125,34 @@ public class RpgController {
       monster.takeDamage(damageQuantity);
 
       session.setAttribute("monster", monster);
+
+      // ⑧モンスターが攻撃してくる
+      // TODO:パーティメンバーが倒れても特に行動できないわけでもないし被攻撃対象にもなってしまう
+
+      // モンスターがパーティメンバーの誰かを指定する
+      Random rand = new Random();
+      int attackOpponentId = rand.nextInt(character.size());
+
+      // モンスターの基本攻撃力を取得
+      int attackPower = monster.getAttackPower();
+
+      // 威力を0~2倍までランダムに設定
+      attackPower *= rand.nextInt(3);
+
+      // 指定したメンバーのHPを減らす
+      int remainingHP = character.get(attackOpponentId).getHp();
+      remainingHP -= attackPower;
+      character.get(attackOpponentId).setHp(remainingHP);
+
+      // モンスターの攻撃文言を準備
+      monster.fight(character.get(attackOpponentId).getName(), attackPower);
+
+      // 減った状態を反映させるためにsessionに保存する
+      mParty.setPartyList(character);
+      session.setAttribute("party", mParty);
+
+      // プレイヤーのパーティを渡す
+      mav.addObject("party", mParty);
 
       mav.addObject("monster", monster);
       mav.setViewName("BattleView");

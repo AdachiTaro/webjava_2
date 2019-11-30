@@ -93,10 +93,10 @@ public class Character {
     int remainingHP = getHp();
 
     switch (getJobName()) {
-      case "魔法使い" :
+      case "魔法使い":
         remainingHP += 20;
         break;
-      default :
+      default:
         remainingHP += 10;
     }
 

@@ -10,6 +10,10 @@ public class Party {
     partyList.add(createdCharacter);
   }
 
+  public void setPartyList(List<Character> partyList) {
+    this.partyList = partyList;
+  }
+
   public List<Character> getPartyList() {
     return partyList;
   }
