@@ -1,6 +1,6 @@
 package jp.co.systena.tigerscave.springtest.model.display;
 
-public class Warrior extends Job{
+public class Warrior extends Job {
   // 戦士クラス
   @Override
   public String fight() {

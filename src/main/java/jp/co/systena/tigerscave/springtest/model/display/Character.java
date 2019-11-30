@@ -7,16 +7,18 @@ public class Character {
   private Job job;
   private String name;
   private String command;
+  private int commandId;
+
+  public final int COMMAND_FIGHT = 0;
+  public final int COMMAND_HEAL = 1;
 
   public Character(int id, String jobname, int hp, String name) {
-    switch(jobname) {
+    switch (jobname) {
       case "戦士":
         setJob(new Warrior());
-//        setCommand(getJob().fight());
         break;
       case "魔法使い":
         setJob(new Wizard());
-//        setCommand(getJob().fight());
         break;
       case "武闘家":
         setJob(new Monk());
@@ -77,6 +79,14 @@ public class Character {
 
   public void setCommand(String command) {
     this.command = command;
+  }
+
+  public int getCommandId() {
+    return commandId;
+  }
+
+  public void setCommandId(int commandId) {
+    this.commandId = commandId;
   }
 
 }

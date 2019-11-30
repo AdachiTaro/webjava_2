@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import jp.co.systena.tigerscave.springtest.model.display.Character;
+import jp.co.systena.tigerscave.springtest.model.display.Goblin;
+import jp.co.systena.tigerscave.springtest.model.display.Monster;
 import jp.co.systena.tigerscave.springtest.model.display.Party;
 import jp.co.systena.tigerscave.springtest.model.form.CharacterCreateForm;
 
@@ -29,14 +31,16 @@ public class RpgController {
   }
 
   @RequestMapping(value = "/CreateCompleted", method = RequestMethod.POST)
-  public ModelAndView characterCreate(HttpSession session, ModelAndView mav, CharacterCreateForm characterCreateForm) {
+  public ModelAndView characterCreate(HttpSession session, ModelAndView mav,
+      CharacterCreateForm characterCreateForm) {
     int id = 1;
     if (session.getAttribute("partyList") != null) {
       mParty = (Party) session.getAttribute("partyList");
-      id = mParty.getPartyList().size() +1;
+      id = mParty.getPartyList().size() + 1;
     }
     final int DEFAULT_HP = 100;
-    Character createdCharacter = new Character(id,characterCreateForm.getJob(),DEFAULT_HP,characterCreateForm.getName());
+    Character createdCharacter =
+        new Character(id, characterCreateForm.getJob(), DEFAULT_HP, characterCreateForm.getName());
 
     mParty.addPartyMember(createdCharacter);
 
@@ -52,7 +56,12 @@ public class RpgController {
 
   @RequestMapping(value = "/Command", method = RequestMethod.POST)
   public ModelAndView commandSelect(HttpSession session, ModelAndView mav) {
-    mParty = (Party)session.getAttribute("partyList");
+    mParty = (Party) session.getAttribute("partyList");
+
+    // コマンド画面を開いたところで全キャラのコマンドを"未選択"に設定
+    for (Character chara : mParty.getPartyList()) {
+      chara.setCommand("未選択");
+    }
 
     mav.addObject("party", mParty);
     mav.setViewName("CommandView");
@@ -60,18 +69,21 @@ public class RpgController {
   }
 
   @RequestMapping(value = "/SelectCommand", method = RequestMethod.POST)
-  public ModelAndView commandSelect(@ModelAttribute("selectcommand") String selectedCommand,@ModelAttribute("memberId") int selectCharaId, HttpSession session, ModelAndView mav) {
-    mParty = (Party)session.getAttribute("partyList");
+  public ModelAndView commandSelect(@ModelAttribute("selectcommand") String selectedCommand,
+      @ModelAttribute("memberId") int selectCharaId, HttpSession session, ModelAndView mav) {
+    mParty = (Party) session.getAttribute("partyList");
     List<Character> partyList = mParty.getPartyList();
 
     // 選ばれたコマンドの表示する文言をキャラクタにセット
-    Character commandSelectChara = partyList.get(selectCharaId -1);
+    Character commandSelectChara = partyList.get(selectCharaId - 1);
     switch (selectedCommand) {
-      case "たたかう" :
+      case "たたかう":
         commandSelectChara.setCommand(commandSelectChara.getJob().fight());
+        commandSelectChara.setCommandId(commandSelectChara.COMMAND_FIGHT);
         break;
-      case "かいふく" :
+      case "かいふく":
         commandSelectChara.setCommand(commandSelectChara.getJob().heal());
+        commandSelectChara.setCommandId(commandSelectChara.COMMAND_HEAL);
         break;
     }
 
@@ -89,32 +101,33 @@ public class RpgController {
       mav.setViewName("CommandView");
     } else {
       // コマンド選択が終わっているようなので戦闘結果画面を表示
+
+      // 攻撃側のパーティを渡す
       mav.addObject("party", mParty);
+
+      // 初回はモンスターを生成する、初回以外はsessionから取得する
+      Monster monster = (Monster) session.getAttribute("monster");
+      if (monster == null) {
+        monster = new Goblin("ゴブリンA");
+      }
+
+      // モンスターにダメージを与える
+      List<Character> character = mParty.getPartyList();
+      int damageQuantity = 0;
+
+      for (Character member : character) {
+        if (member.getCommandId() == member.COMMAND_FIGHT) {
+          damageQuantity += 10;
+        }
+
+      }
+      monster.takeDamage(damageQuantity);
+
+      session.setAttribute("monster", monster);
+
+      mav.addObject("monster", monster);
       mav.setViewName("BattleView");
     }
-    return mav;
-  }
-
-  @RequestMapping(value = "/Battle", method = RequestMethod.POST)
-  public ModelAndView battleStart(@ModelAttribute("battle") String selectedCommand, HttpSession session, ModelAndView mav) {
-    // TODO:ここのメソッドは戦闘画面ように直す予定
-    mParty = (Party)session.getAttribute("partyList");
-    List<Character> partyList = mParty.getPartyList();
-    for (Character member:partyList) {
-      String command = "";
-      switch (selectedCommand) {
-        case "たたかう" :
-          command = member.getJob().fight();
-          break;
-        case "かいふく" :
-          command = member.getJob().heal();
-          break;
-      }
-      member.setCommand(command);
-    }
-
-    mav.addObject("party", mParty);
-    mav.setViewName("BattleView");
     return mav;
   }
 }
