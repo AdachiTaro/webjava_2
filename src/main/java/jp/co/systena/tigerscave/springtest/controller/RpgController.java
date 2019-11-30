@@ -84,6 +84,9 @@ public class RpgController {
       case "かいふく":
         commandSelectChara.setCommand(commandSelectChara.getJob().heal());
         commandSelectChara.setCommandId(commandSelectChara.COMMAND_HEAL);
+
+        // ⑧ 回復実行
+        commandSelectChara.executeHeal();
         break;
     }
 

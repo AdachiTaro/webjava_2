@@ -11,23 +11,36 @@
   crossorigin="anonymous">
 </head>
 <body>
-  <h1 th:text="戦闘結果"></h1>
-  <table th:each="member: ${party.partyList}">
+  <h3 th:text="戦闘結果"></h3>
+  <table class="table w-50" th:each="member, tmp: ${party.partyList}" style="table-layout:fixed;">
     <tr>
       <td th:text="${member.Name} + 'は' + ${member.Command}"></td>
     </tr>
+    <tr th:if="${tmp.size} == ${tmp.count}">
+      <td th:text="${monster.Name} + 'のHPは' + ${monster.hp} + 'になった！'"></td>
+    </tr>
   </table>
-  <div th:text="${monster.Name} + 'のHPは' + ${monster.hp} + 'になった！'"></div>
 
   <!-- ここで再度コマンド選択に移動するのか敵が倒れたのかをチェック -->
   <div th:if="${monster.hp} le 0"
-    th:text="${monster.knockedDownMessage}"></div>
+    th:text="${monster.knockedDownMessage}">
+  </div>
   <div th:if="${monster.hp} gt 0">
     <form th:action="@{/Command}" method="post">
       <input type="submit" name="command" th:value="コマンド選択へ" />
     </form>
   </div>
 
+  </br>
+
+  <table class="table w-50" style="table-layout:fixed;">
+    <tr><th>名前</th><th>HP</th><th>職業</th></tr>
+    <tr th:each="member: ${party.partyList}">
+      <td th:text="${member.Name}"></td>
+      <td th:text="${member.Hp}"></td>
+      <td th:text="${member.jobName}"></td>
+    </tr>
+  </table>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>

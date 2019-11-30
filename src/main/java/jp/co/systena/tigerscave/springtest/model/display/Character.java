@@ -89,4 +89,17 @@ public class Character {
     this.commandId = commandId;
   }
 
+  public void executeHeal() {
+    int remainingHP = getHp();
+
+    switch (getJobName()) {
+      case "魔法使い" :
+        remainingHP += 20;
+        break;
+      default :
+        remainingHP += 10;
+    }
+
+    setHp(remainingHP);
+  }
 }
